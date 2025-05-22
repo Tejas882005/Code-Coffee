@@ -14,6 +14,23 @@ public class AccountDAO {
         this.connection = DBConnection.getInstance();
     }
 
-   
+    public Account loadByUserId(int userId) throws SQLException {
+        String query = "SELECT * FROM accounts WHERE user_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Account(
+                        rs.getInt("account_number"),
+                        rs.getInt("user_id"),
+                        rs.getBigDecimal("checking_balance"),
+                        rs.getBigDecimal("savings_balance")
+                    );
+                }
+            }
+        }
+        return null; 
+    }
+
     
 }
