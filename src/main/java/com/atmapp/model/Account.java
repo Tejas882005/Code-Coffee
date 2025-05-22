@@ -15,5 +15,35 @@ public class Account {
         this.savingsBalance = savingsBalance;
     }
 
-    
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(int accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public BigDecimal getCheckingBalance() {
+        return checkingBalance;
+    }
+
+    public void setCheckingBalance(BigDecimal checkingBalance) {
+        this.checkingBalance = checkingBalance;
+    }
+
+    public BigDecimal getSavingsBalance() {
+        return savingsBalance;
+    }
+
+    public void setSavingsBalance(BigDecimal savingsBalance) {
+        this.savingsBalance = savingsBalance;
+    }
 }
