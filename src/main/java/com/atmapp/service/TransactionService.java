@@ -51,7 +51,19 @@ public class TransactionService {
     }
 
   
- 
+    public void depositSavings(User user, BigDecimal amount) throws SQLException {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Deposit amount must be positive");
+        }
+        Account account = accountDAO.loadByUserId(user.getUserId());
+        if (account != null) {
+            BigDecimal newBalance = account.getSavingsBalance().add(amount);
+            account.setSavingsBalance(newBalance);
+            accountDAO.updateAccount(account);
+        } else {
+            throw new IllegalArgumentException("Account not found for user");
+        }
+    }
 
   
 }
