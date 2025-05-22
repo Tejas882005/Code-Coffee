@@ -30,6 +30,26 @@ public class TransactionService {
         }
     }
 
+   
+    public void withdrawChecking(User user, BigDecimal amount) throws SQLException, InsufficientFundsException {
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Withdrawal amount must be positive");
+        }
+        Account account = accountDAO.loadByUserId(user.getUserId());
+        if (account != null) {
+            BigDecimal currentBalance = account.getCheckingBalance();
+            if (currentBalance.compareTo(amount) >= 0) {
+                BigDecimal newBalance = currentBalance.subtract(amount);
+                account.setCheckingBalance(newBalance);
+                accountDAO.updateAccount(account);
+            } else {
+                throw new InsufficientFundsException("Insufficient funds in checking account");
+            }
+        } else {
+            throw new IllegalArgumentException("Account not found for user");
+        }
+    }
+
   
  
 
