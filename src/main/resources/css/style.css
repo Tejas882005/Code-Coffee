@@ -1,23 +1,99 @@
 .root {
-    -fx-font-size: 14px;
-    -fx-background-color: #f4f4f4;
+    -fx-font-family: "Arial";
+    -fx-background-color: #ffffff;
 }
 
-.button {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-padding: 10px 20px;
-    -fx-cursor: hand;
+.welcome-text {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-fill: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 5, 0, 0, 1);
 }
 
-.button:hover {
-    -fx-background-color: #45a049;
-}
-
-.text-field, .password-field {
-    -fx-pref-width: 200px;
+.title-text {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-fill: #003087; /* Bank blue */
 }
 
 .label {
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.input-field {
+    -fx-pref-width: 200px;
+    -fx-padding: 8px;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-background-color: #f9f9f9;
+    -fx-font-size: 14px;
+}
+
+.input-field:focused {
+    -fx-border-color: #003087;
+}
+
+.primary-button {
+    -fx-background-color: #003087;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #0041c2;
+}
+
+.transaction-button {
+    -fx-background-color: #005566; /* Dark teal */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-pref-width: 200px;
+}
+
+.transaction-button:hover {
+    -fx-background-color: #006d82;
+}
+
+.secondary-button {
+    -fx-background-color: #dc3545; /* Red for logout */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #c82333;
+}
+
+.error-label {
+    -fx-text-fill: #dc3545;
+    -fx-font-size: 12px;
+}
+
+.message-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #dc3545;
+}
+
+.balance-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.login-pane, .transaction-pane {
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+    -fx-background-radius: 10px;
+    -fx-padding: 20px;
 }

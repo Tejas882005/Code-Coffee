@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 
 import com.atmapp.dao.AccountDAO;
+import com.atmapp.exception.InsufficientFundsException;
 import com.atmapp.model.Account;
 import com.atmapp.model.User;
 import com.atmapp.service.TransactionService;
@@ -14,14 +15,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class TransactionUI {
+
     private final Stage stage;
     private final User user;
     private final TransactionService transactionService;
     private Account account;
+    private Label balanceLabel;
 
     public TransactionUI(Stage stage, User user) throws SQLException {
         this.stage = stage;
@@ -31,13 +36,18 @@ public class TransactionUI {
     }
 
     public void show() {
-        VBox layout = new VBox(10);
-        layout.setAlignment(Pos.CENTER);
-        layout.setPadding(new Insets(20));
+        Text title = new Text("Account Transactions");
+        title.getStyleClass().add("title-text");
 
-        Label welcomeLabel = new Label("Welcome, User #" + user.getCustomerNumber());
-        Label balanceLabel = new Label("Checking: $" + account.getCheckingBalance() +
-                                      " | Savings: $" + account.getSavingsBalance());
+        Text welcomeLabel = new Text("Welcome, User #" + user.getCustomerNumber());
+        welcomeLabel.getStyleClass().add("welcome-text");
+        balanceLabel = new Label("Checking: $" + account.getCheckingBalance()
+                + " | Savings: $" + account.getSavingsBalance());
+        balanceLabel.getStyleClass().add("balance-label");
+
+        TextField amountField = new TextField();
+        amountField.setPromptText("Enter amount");
+        amountField.getStyleClass().add("input-field");
 
         Button depositCheckingButton = new Button("Deposit to Checking");
         Button withdrawCheckingButton = new Button("Withdraw from Checking");
@@ -45,10 +55,19 @@ public class TransactionUI {
         Button withdrawSavingsButton = new Button("Withdraw from Savings");
         Button logoutButton = new Button("Logout");
 
-        TextField amountField = new TextField();
-        amountField.setPromptText("Enter amount");
+        depositCheckingButton.getStyleClass().add("transaction-button");
+        withdrawCheckingButton.getStyleClass().add("transaction-button");
+        depositSavingsButton.getStyleClass().add("transaction-button");
+        withdrawSavingsButton.getStyleClass().add("transaction-button");
+        logoutButton.getStyleClass().add("secondary-button");
+
+        HBox checkingButtons = new HBox(10, depositCheckingButton, withdrawCheckingButton);
+        checkingButtons.setAlignment(Pos.CENTER);
+        HBox savingsButtons = new HBox(10, depositSavingsButton, withdrawSavingsButton);
+        savingsButtons.setAlignment(Pos.CENTER);
+
         Label messageLabel = new Label();
-        messageLabel.setStyle("-fx-text-fill: red;");
+        messageLabel.getStyleClass().add("message-label");
 
         depositCheckingButton.setOnAction(event -> handleTransaction(amountField, messageLabel, "depositChecking"));
         withdrawCheckingButton.setOnAction(event -> handleTransaction(amountField, messageLabel, "withdrawChecking"));
@@ -62,10 +81,12 @@ public class TransactionUI {
             }
         });
 
-        layout.getChildren().addAll(welcomeLabel, balanceLabel, amountField, depositCheckingButton,
-                withdrawCheckingButton, depositSavingsButton, withdrawSavingsButton, logoutButton, messageLabel);
-
-        Scene scene = new Scene(layout, 400, 400);
+        VBox layout = new VBox(15, title, welcomeLabel, balanceLabel, amountField, checkingButtons, savingsButtons, logoutButton, messageLabel);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+        layout.getStyleClass().add("transaction-pane");
+        layout.setStyle("-fx-background-color:rgb(183, 160, 216);"); 
+        Scene scene = new Scene(layout, 600, 500);
         scene.getStylesheets().add("css/style.css");
         stage.setTitle("ATM Transactions");
         stage.setScene(scene);
@@ -76,19 +97,31 @@ public class TransactionUI {
         try {
             BigDecimal amount = new BigDecimal(amountField.getText());
             switch (transactionType) {
-                case "depositChecking" -> transactionService.depositChecking(user, amount);
-                case "withdrawChecking" -> transactionService.withdrawChecking(user, amount);
-                case "depositSavings" -> transactionService.depositSavings(user, amount);
-                case "withdrawSavings" -> transactionService.withdrawSavings(user, amount);
+                case "depositChecking" ->
+                    transactionService.depositChecking(user, amount);
+                case "withdrawChecking" ->
+                    transactionService.withdrawChecking(user, amount);
+                case "depositSavings" ->
+                    transactionService.depositSavings(user, amount);
+                case "withdrawSavings" ->
+                    transactionService.withdrawSavings(user, amount);
             }
             account = new AccountDAO().loadByUserId(user.getUserId());
+            balanceLabel.setText("Checking: $" + account.getCheckingBalance()
+                    + " | Savings: $" + account.getSavingsBalance());
+            messageLabel.getStyleClass().remove("warning-label");
             messageLabel.setStyle("-fx-text-fill: green;");
-            messageLabel.setText("Transaction successful! New Checking: $" + account.getCheckingBalance() +
-                                " | Savings: $" + account.getSavingsBalance());
+            messageLabel.setText("Transaction successful!");
         } catch (NumberFormatException e) {
+            messageLabel.getStyleClass().remove("warning-label");
             messageLabel.setText("Invalid amount");
-        } catch (SQLException | com.atmapp.exception.InsufficientFundsException e) {
-            messageLabel.setText(e.getMessage());
+        } catch (InsufficientFundsException e) {
+            messageLabel.getStyleClass().add("warning-label");
+            messageLabel.setStyle("-fx-text-fill: red;");
+            messageLabel.setText("Warning: " + e.getMessage());
+        } catch (SQLException e) {
+            messageLabel.getStyleClass().remove("warning-label");
+            messageLabel.setText("Database error: " + e.getMessage());
         }
     }
 }
