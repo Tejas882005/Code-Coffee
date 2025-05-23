@@ -26,15 +26,18 @@ Below are placeholders for UI snapshots.
 
 ### Home Screen
 - **Description**: Displays an ATM background image with a "Welcome to Horizon Bank ATM" message and a centered Login button.
-- **Snapshot**: [assets/home.png]
+- **Snapshot**:  
+  ![Home Screen](assets/home.png)
 
 ### Login Screen
 - **Description**: A clean login interface with fields for customer number and PIN, styled with a bank-blue theme.
-- **Snapshot**: [assets/login.png]
+- **Snapshot**:  
+  ![Login Screen](assets/login.png)
 
 ### Transaction Screen
 - **Description**: Shows account balances, transaction buttons (Deposit/Withdraw for Checking/Savings), and a warning message for insufficient funds in bold red. Features a light blue-gray background.
-- **Snapshot**: [assets/success.png]
+- **Snapshot**:  
+  ![Transaction Screen](assets/success.png)
 
 ---
 
