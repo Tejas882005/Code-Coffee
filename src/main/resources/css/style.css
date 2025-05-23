@@ -1,0 +1,23 @@
+.root {
+    -fx-font-size: 14px;
+    -fx-background-color: #f4f4f4;
+}
+
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+.text-field, .password-field {
+    -fx-pref-width: 200px;
+}
+
+.label {
+    -fx-font-weight: bold;
+}
