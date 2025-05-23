@@ -76,18 +76,10 @@ public class TransactionUI {
         try {
             BigDecimal amount = new BigDecimal(amountField.getText());
             switch (transactionType) {
-                case "depositChecking":
-                    transactionService.depositChecking(user, amount);
-                    break;
-                case "withdrawChecking":
-                    transactionService.withdrawChecking(user, amount);
-                    break;
-                case "depositSavings":
-                    transactionService.depositSavings(user, amount);
-                    break;
-                case "withdrawSavings":
-                    transactionService.withdrawSavings(user, amount);
-                    break;
+                case "depositChecking" -> transactionService.depositChecking(user, amount);
+                case "withdrawChecking" -> transactionService.withdrawChecking(user, amount);
+                case "depositSavings" -> transactionService.depositSavings(user, amount);
+                case "withdrawSavings" -> transactionService.withdrawSavings(user, amount);
             }
             account = new AccountDAO().loadByUserId(user.getUserId());
             messageLabel.setStyle("-fx-text-fill: green;");
