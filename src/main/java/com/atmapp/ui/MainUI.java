@@ -1,26 +1,19 @@
 package com.atmapp.ui;
 
+import java.sql.SQLException;
+
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-
 public class MainUI extends Application {
-
     @Override
     public void start(Stage primaryStage) {
-        Label welcomeLabel = new Label("Welcome to ATM System");
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(welcomeLabel);
-        
-        Scene scene = new Scene(root, 400, 300);
-        
-        primaryStage.setTitle("ATM System");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        try {
+            LoginUI loginUI = new LoginUI(primaryStage);
+            loginUI.show();
+        } catch (SQLException e) {
+            System.err.println("Failed to initialize database: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {
