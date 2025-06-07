@@ -11,10 +11,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label; 
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -29,61 +28,39 @@ public class LoginUI {
     }
 
     public void show() {
-        Text title = new Text("Login to Your Account");
-        title.getStyleClass().add("title-text");
+        Text title = new Text("Login to Horizon Bank ATM");
+        title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(15);
-        grid.setPadding(new Insets(20));
-
-        Label customerNumberLabel = new Label("Customer Number:");
-        customerNumberLabel.getStyleClass().add("label");
         TextField customerNumberField = new TextField();
-        customerNumberField.getStyleClass().add("input-field");
-        grid.add(customerNumberLabel, 0, 0);
-        grid.add(customerNumberField, 1, 0);
-
-        Label pinLabel = new Label("PIN:");
-        pinLabel.getStyleClass().add("label");
+        customerNumberField.setPromptText("Customer Number");
         PasswordField pinField = new PasswordField();
-        pinField.getStyleClass().add("input-field");
-        grid.add(pinLabel, 0, 1);
-        grid.add(pinField, 1, 1);
+        pinField.setPromptText("PIN");
 
         Button loginButton = new Button("Login");
-        loginButton.getStyleClass().add("primary-button");
-        grid.add(loginButton, 1, 2);
+        loginButton.setStyle("-fx-background-color: #003087; -fx-text-fill: white; -fx-font-size: 14px;");
 
-        Label errorLabel = new Label();
-        errorLabel.getStyleClass().add("error-label");
-        grid.add(errorLabel, 0, 3, 2, 1);
+        Label messageLabel = new Label();
+        messageLabel.setStyle("-fx-text-fill: red;");
 
-        loginButton.setOnAction(event -> {
+        loginButton.setOnAction(e -> {
             try {
                 int customerNumber = Integer.parseInt(customerNumberField.getText());
                 int pin = Integer.parseInt(pinField.getText());
                 User user = authService.authenticate(customerNumber, pin);
-                TransactionUI transactionUI = new TransactionUI(stage, user);
-                transactionUI.show();
-            } catch (NumberFormatException e) {
-                errorLabel.setText("Please enter valid numbers");
-            } catch (AuthenticationException e) {
-                errorLabel.setText(e.getMessage());
-            } catch (SQLException e) {
-                errorLabel.setText("Database error: " + e.getMessage());
+                new TransactionUI(stage, user).show();
+            } catch (NumberFormatException ex) {
+                messageLabel.setText("Please enter valid numbers");
+            } catch (AuthenticationException | SQLException ex) {
+                messageLabel.setText(ex.getMessage());
             }
         });
 
-        VBox mainLayout = new VBox(20, title, grid);
-        mainLayout.setAlignment(Pos.CENTER);
-        mainLayout.setPadding(new Insets(20));
-        mainLayout.getStyleClass().add("login-pane");
+        VBox layout = new VBox(15, title, customerNumberField, pinField, loginButton, messageLabel);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+        layout.setStyle("-fx-background-color: #e6f0fa;");
 
-        Scene scene = new Scene(mainLayout, 600, 400);
-        scene.getStylesheets().add("css/style.css");
-        stage.setTitle("ATM Login");
+        Scene scene = new Scene(layout, 400, 300);
         stage.setScene(scene);
         stage.show();
     }
