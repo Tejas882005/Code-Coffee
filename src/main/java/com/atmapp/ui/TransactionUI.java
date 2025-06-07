@@ -2,20 +2,17 @@ package com.atmapp.ui;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.List;
 
 import com.atmapp.dao.AccountDAO;
 import com.atmapp.dao.TransactionDAO;
 import com.atmapp.exception.InsufficientFundsException;
 import com.atmapp.model.Account;
-import com.atmapp.model.Transaction;
 import com.atmapp.model.User;
 import com.atmapp.service.TransactionService;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -111,12 +108,24 @@ public class TransactionUI {
         try {
             BigDecimal amount = new BigDecimal(amountField.getText());
             switch (transactionType) {
-                case "depositChecking" -> transactionService.depositChecking(user.getUserId(), amount);
-                case "withdrawChecking" -> transactionService.withdrawChecking(user.getUserId(), amount);
-                case "depositSavings" -> transactionService.depositSavings(user.getUserId(), amount);
-                case "withdrawSavings" -> transactionService.withdrawSavings(user.getUserId(), amount);
-                case "transferToSavings" -> transactionService.transfer(user.getUserId(), amount, true);
-                case "transferToChecking" -> transactionService.transfer(user.getUserId(), amount, false);
+                case "depositChecking":
+                    transactionService.depositChecking(user.getUserId(), amount);
+                    break;
+                case "withdrawChecking":
+                    transactionService.withdrawChecking(user.getUserId(), amount);
+                    break;
+                case "depositSavings":
+                    transactionService.depositSavings(user.getUserId(), amount);
+                    break;
+                case "withdrawSavings":
+                    transactionService.withdrawSavings(user.getUserId(), amount);
+                    break;
+                case "transferToSavings":
+                    transactionService.transfer(user.getUserId(), amount, true);
+                    break;
+                case "transferToChecking":
+                    transactionService.transfer(user.getUserId(), amount, false);
+                    break;
             }
             account = new AccountDAO().loadByUserId(user.getUserId());
             balanceLabel.setText("Checking: $" + account.getCheckingBalance() +
@@ -134,21 +143,10 @@ public class TransactionUI {
 
     private void showTransactionHistory(Label messageLabel) {
         try {
-            List<Transaction> transactions = transactionService.getTransactionHistory(user.getUserId());
-            StringBuilder history = new StringBuilder("Recent Transactions:\n");
-            for (Transaction t : transactions) {
-                history.append(String.format("%s: %s $%.2f at %s\n",
-                        t.getType(), t.getAmount().compareTo(BigDecimal.ZERO) > 0 ? "+" : "",
-                        t.getAmount().abs(), t.getTimestamp()));
-            }
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Transaction History");
-            alert.setHeaderText(null);
-            alert.setContentText(history.toString());
-            alert.showAndWait();
+            new TransactionHistoryUI(stage, user).show();
         } catch (SQLException e) {
             messageLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
-            messageLabel.setText("Error fetching history: " + e.getMessage());
+            messageLabel.setText("Error opening history: " + e.getMessage());
         }
     }
 }
