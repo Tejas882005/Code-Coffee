@@ -37,11 +37,7 @@ The Horizon Bank ATM System simulates a real-world ATM, offering a secure and in
 - **JUnit 5.11.3**: Unit testing framework for validating core logic.
 - **CSS**: Custom styles for UI components (e.g., `style.css` for button and background colors).
 
-## Marks Distribution Areas
-
-Below, I detail how the project addresses each of the seven areas evaluated for Assignment 2, ensuring full marks potential.
-
-### 1. Core Feature Implementation (5/5)
+### 1. Core Feature Implementation 
 The project fully implements all required ATM functionalities, integrated seamlessly with the UI and database:
 - **Authentication**: Validates customer number and PIN via `AuthService` and `UserDAO`.
 - **Balance Inquiry**: Displays checking and savings balances on `TransactionUI` using `AccountDAO`.
@@ -51,7 +47,7 @@ The project fully implements all required ATM functionalities, integrated seamle
 - **Transaction History**: Presents a dedicated `TransactionHistoryUI` with a `TableView` showing transaction ID, type, amount, and timestamp, fetched via `TransactionDAO`.
 - **Testing**: Features work end-to-end with test data (`customer_number=123456`, `pin=1234`, initial balances `$1000` checking, `$500` savings).
 
-### 2. Code Quality (3/3)
+### 2. Code Quality 
 The codebase is structured, maintainable, and adheres to best practices:
 - **Modularity**: Organized into packages (`model`, `dao`, `service`, `ui`, `exception`, `util`) for separation of concerns.
 - **Naming Conventions**: Clear, descriptive names (e.g., `TransactionService`, `AccountDAO`).
@@ -60,7 +56,7 @@ The codebase is structured, maintainable, and adheres to best practices:
 - **No Redundancy**: Reusable methods in `TransactionService` and `ConfigLoader` minimize duplication.
 - **Maven Integration**: Clean `pom.xml` with resolved dependencies (e.g., `mysql-connector-j:8.0.33`).
 
-### 3. Error Handling & Robustness (3/3)
+### 3. Error Handling & Robustness 
 The application is robust, handling edge cases gracefully:
 - **Input Validation**: `TransactionService` checks for positive amounts and sufficient funds, throwing `IllegalArgumentException` or `InsufficientFundsException`.
 - **Database Errors**: SQL exceptions are caught and displayed via alerts (e.g., in `TransactionHistoryUI`).
@@ -71,7 +67,7 @@ The application is robust, handling edge cases gracefully:
 - **Logging**: SLF4J integration logs key operations (configurable in `TransactionService`).
 - **Edge Cases**: Handles empty transaction history, invalid credentials, and database downtime.
 
-### 4. Event Processing & User Interaction (3/3)
+### 4. Event Processing & User Interaction 
 The UI is responsive and intuitive:
 - **Button Actions**: Each button (`Deposit`, `Withdraw`, `View History`, etc.) triggers specific actions via event handlers in `TransactionUI`.
 - **Real-Time Updates**: Balances update instantly after transactions (via `AccountDAO`).
@@ -79,7 +75,7 @@ The UI is responsive and intuitive:
 - **Feedback**: Immediate visual feedback for user actions (e.g., success/error messages).
 - **Input Handling**: Text fields (`customerNumberField`, `amountField`) are validated to prevent crashes.
 
-### 5. Database Integration (3/3)
+### 5. Database Integration 
 MySQL is fully integrated for persistent storage:
 - **Schema**: `schema.sql` defines `users`, `accounts`, and `transactions` tables with proper constraints (e.g., foreign keys).
 - **JDBC**: `DBConnection` uses `ConfigLoader` to read `application.properties` for secure connectivity.
@@ -91,7 +87,7 @@ MySQL is fully integrated for persistent storage:
 - **Test Data**: Preloaded user (`123456`, `1234`) and accounts (`$1000`, `$500`) for demo.
 - **Consistency**: Transactions update `accounts` and log to `transactions` atomically.
 
-### 6. UI Design & Usability (3/3)
+### 6. UI Design & Usability 
 The UI is elegant, professional, and user-friendly:
 - **Home Screen**: Features a bank-themed background image (`atm-background.jpg`) with a bold "Welcome to Horizon Bank ATM" message and a centered bank-blue (`#003087`) "Login" button.
 - **Login Screen**: Clean layout with customer number and PIN fields, styled with bank-blue accents.
@@ -108,7 +104,7 @@ The UI is elegant, professional, and user-friendly:
 - **CSS Styling**: `style.css` customizes buttons, labels, and backgrounds for consistency.
 - **Usability**: Intuitive layout, clear feedback, and no learning curve for users.
 
-### 7. Documentation & Submission (3/3)
+### 7. Documentation & Submission 
 The project includes comprehensive documentation:
 - **README.md**: Detailed setup instructions, feature descriptions, screenshots, and troubleshooting.
 - **Project Structure**: Clearly outlined below.
@@ -163,10 +159,10 @@ Follow these steps to run the Horizon Bank ATM System on a Windows machine (adap
 ### Step 1: Clone or Download the Project
 - Clone (if using Git):
   ```powershell
-  git clone [your-repository-url]
-  cd atm-system
+  git clone https://github.com/Tejas882005/Code-Coffee
+  cd JavaATMProj
   ```
-- Or download ZIP and extract to `C:\Users\arpit\OneDrive\Desktop\CLonw\JavaATMProj`.
+- Or download ZIP and extract to your device.
 
 ### Step 2: Set Up MySQL Database
 1. **Start MySQL**:
