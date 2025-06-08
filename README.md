@@ -207,9 +207,7 @@ Follow these steps to run the Horizon Bank ATM System on a Windows machine (adap
 
 ### Step 5: Build the Project
 - Navigate to project:
-  ```powershell
-  cd C:\Users\arpit\OneDrive\Desktop\CLonw\JavaATMProj
-  ```
+
 - Compile:
   ```powershell
   mvn clean compile
